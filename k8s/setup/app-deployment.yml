@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-app-deployment
+  finalizers:
+    - image-cloner/del-protection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      components: frontend
+  template:
+    metadata:
+      name: express-app
+      labels:
+        components: frontend
+    spec:
+      containers:
+        - name: express-app
+          image: letterthing/express-app-2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "100m"

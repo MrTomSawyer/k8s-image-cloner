@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-cloner-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      controller: image-cloner
+  template:
+    metadata:
+      name: image-cloner-controller
+      labels:
+        controller: image-cloner
+    spec:
+      serviceAccountName: image-cloner-sa
+      containers:
+        - name: image-cloner
+          image: letterthing/image-cloner
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
